@@ -69,13 +69,16 @@ export const CartProvider = ({ children }) => {
     );
   };
 
-  const getTotalCost = () => {
+const getTotalCost = () => {
     let totalCost = 0;
-    cartProducts.map((cartItem) => {
-        const productData = getProductData(cartItem.id);
-        totalCost += (productData.price + cartItem.quantity)
-    })
-  }
+    cartProducts.forEach((cartItem) => {
+      const productData = getProductData(cartItem.id);
+      totalCost += (productData.price * cartItem.quantity);
+    });
+    return totalCost;
+  };
+  
+
 
   const contextValue = {
     items: cartProducts,
@@ -85,7 +88,7 @@ export const CartProvider = ({ children }) => {
     deleteFromCart,
     getTotalCost,
   };
-  
+
   return (
     <CartContext.Provider value={contextValue}>{children}</CartContext.Provider>
   );
